@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#EFE7E1">
+
+    <!-- TOPBAR -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <Button
+            android:id="@+id/backToRoomsBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="← RÄUME" />
+
+        <Button
+            android:id="@+id/seedTablesBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="TISCHE ANLEGEN" />
+
+        <Button
+            android:id="@+id/editToggleBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="BEARBEITEN" />
+
+        <Button
+            android:id="@+id/savePlanBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="SPEICHERN"
+            android:enabled="false" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/addTableBtn"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_add"
+            android:contentDescription="Tisch hinzufügen"
+            android:padding="6dp" />
+    </LinearLayout>
+
+    <!-- Raumname -->
+    <TextView
+        android:id="@+id/roomTitleTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="8dp"
+        android:text="Raum"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="#3A2A20" />
+
+    <!-- Rahmen + Canvas (passt sich IMMER dem Screen an) -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="12dp">
+
+        <FrameLayout
+            android:id="@+id/planFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/plan_frame_bg"
+            android:padding="10dp">
+
+            <!-- Canvas: Größe wird in Kotlin dynamisch gesetzt -->
+            <FrameLayout
+                android:id="@+id/planCanvas"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#F4ECE6" />
+
+        </FrameLayout>
+    </FrameLayout>
+
+</LinearLayout>

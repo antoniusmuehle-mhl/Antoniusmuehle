@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_launcher_foreground"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Antoniusmühle">
+
+        <!-- ✅ Startbildschirm -->
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- ✅ Raum-Auswahl -->
+        <activity
+            android:name=".RoomSelectionActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"/>
+
+
+        <!-- ✅ Tisch-Planung -->
+        <activity
+            android:name=".TableActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"/>
+
+        <!-- ✅ NEU: Bestellseite pro Tisch -->
+        <activity
+            android:name=".OrderActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".SplitBillActivity" />
+
+
+    </application>
+
+</manifest>

@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "780351964991",
+    "firebase_url": "https://antoniusmuehle-39749-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "antoniusmuehle-39749",
+    "storage_bucket": "antoniusmuehle-39749.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780351964991:android:da63e434ec39df57c0358a",
+        "android_client_info": {
+          "package_name": "com.example.antoniusmhle"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjcO3WbO8JK3MtUg6uMHKPJGog6g9Q0P0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780351964991:android:57c8e571a8abe27ac0358a",
+        "android_client_info": {
+          "package_name": "com.example.antoniusmuehle"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjcO3WbO8JK3MtUg6uMHKPJGog6g9Q0P0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

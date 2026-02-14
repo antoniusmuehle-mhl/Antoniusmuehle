@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/orderRowRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="10dp"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/orderItemName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Artikel"
+            android:textColor="#3A2A20"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/orderItemPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0,00 €"
+            android:textColor="#3A2A20"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnMinus"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:text="−" />
+
+    <TextView
+        android:id="@+id/orderQty"
+        android:layout_width="44dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="1"
+        android:textColor="#3A2A20"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnPlus"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:text="+" />
+
+</LinearLayout>

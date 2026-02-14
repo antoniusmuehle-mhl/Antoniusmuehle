@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/orderRow"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:background="#FFFFFF"
+    android:gravity="center_vertical">
+
+    <Button
+        android:id="@+id/minusBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="−" />
+
+    <TextView
+        android:id="@+id/qtyTxt"
+        android:layout_width="52dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="1x"
+        android:textStyle="bold"
+        android:textColor="#3A2A20"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/plusBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="+" />
+
+    <TextView
+        android:id="@+id/nameTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="10dp"
+        android:text="Artikel"
+        android:textColor="#3A2A20"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/priceTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0,00 €"
+        android:textStyle="bold"
+        android:textColor="#3A2A20"
+        android:textSize="15sp" />
+
+</LinearLayout>

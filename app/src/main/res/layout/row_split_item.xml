@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/splitRowRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <CheckBox
+            android:id="@+id/splitCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/splitItemName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Artikel"
+            android:textStyle="bold"
+            android:textColor="#3A2A20"
+            android:textSize="16sp"
+            android:layout_marginStart="8dp"/>
+
+        <TextView
+            android:id="@+id/splitItemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0,00 €"
+            android:textColor="#3A2A20"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/splitQtyInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Gesamt: 0  |  Bezahlen: 0"
+            android:textColor="#3A2A20"
+            android:textSize="14sp"/>
+
+        <Button
+            android:id="@+id/splitMinus"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/splitPayQty"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:gravity="center"
+            android:text="0"
+            android:textStyle="bold"
+            android:textColor="#3A2A20"/>
+
+        <Button
+            android:id="@+id/splitPlus"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:text="+" />
+    </LinearLayout>
+
+</LinearLayout>
