@@ -35,7 +35,6 @@ class OrderActivity : AppCompatActivity() {
     private lateinit var payBtn: Button
     private lateinit var splitBtn: Button
 
-
     private lateinit var currentOrderRef: DatabaseReference
     private lateinit var orderItemsRef: DatabaseReference
     private lateinit var orderMetaRef: DatabaseReference
@@ -95,10 +94,10 @@ class OrderActivity : AppCompatActivity() {
     // ====================== DRUCK SETTINGS ======================
     // ✅ Jetzt Test: A4 (Brother)
     // ✅ Später Restaurant: ESC_POS_TCP
-    private val PRINT_MODE = PrintMode.A4_ANDROID_PRINT
+    private val PRINT_MODE = PrintMode.ESC_POS_TCP
 
-    private val BAR_PRINTER_IP = "192.168.64.20"
-    private val KITCHEN_PRINTER_IP = "192.168.64.21"
+    private val BAR_PRINTER_IP = "192.168.1.128"
+    private val KITCHEN_PRINTER_IP = "192.168.1.128" // später 192.168.1.199
     private val PRINTER_PORT = 9100
     // ===========================================================
 
@@ -131,7 +130,6 @@ class OrderActivity : AppCompatActivity() {
 
         tabDrinksBtn = findViewById(R.id.tabDrinksBtn)
         tabFoodsBtn = findViewById(R.id.tabFoodsBtn)
-
 
         findViewById<TextView>(R.id.titleTxt).text = "Tisch $tableId"
 
@@ -167,7 +165,6 @@ class OrderActivity : AppCompatActivity() {
                         .setMessage("Willst du „${itOrder.name}“ wirklich entfernen?")
                         .setPositiveButton("LÖSCHEN") { _, _ ->
                             // ✅ WICHTIG: NICHT removeValue()!
-                            // Sonst können wir später kein STORNO mehr berechnen.
                             // Stattdessen qty=0 setzen (Item bleibt in Firebase)
                             orderItemsRef.child(itOrder.itemId).child("qty").setValue(0)
                         }
@@ -598,7 +595,7 @@ class OrderActivity : AppCompatActivity() {
                 for (itemSnap in snapshot.children) {
                     val itemId = itemSnap.key ?: continue
                     val qty = itemSnap.child("qty").getValue(Int::class.java) ?: 0
-                    if (qty <= 0) continue // ✅ gelöschte/0er Items nicht anzeigen
+                    if (qty <= 0) continue
 
                     val name = itemSnap.child("name").getValue(String::class.java) ?: itemId
                     val price = itemSnap.child("price").getValue(Double::class.java) ?: 0.0
@@ -647,9 +644,7 @@ class OrderActivity : AppCompatActivity() {
                 "qty" to 1,
                 "dept" to dept,
                 "size" to sizeLabel,
-                // ✅ Delta-Druck Feld
                 "orderedQty" to 0,
-                // ✅ optional: Kompatibilität (falls du noch printedQty irgendwo nutzt)
                 "printedQty" to 0
             )
             orderItemsRef.child(key).setValue(newData)
@@ -688,7 +683,6 @@ class OrderActivity : AppCompatActivity() {
 
                     val qty = itemSnap.child("qty").getValue(Int::class.java) ?: 0
 
-                    // ✅ orderedQty bevorzugt, fallback printedQty
                     val orderedQty = when {
                         itemSnap.child("orderedQty").exists() -> itemSnap.child("orderedQty").getValue(Int::class.java) ?: 0
                         itemSnap.child("printedQty").exists() -> itemSnap.child("printedQty").getValue(Int::class.java) ?: 0
@@ -710,7 +704,6 @@ class OrderActivity : AppCompatActivity() {
                         if (dept == "KITCHEN") kitchenStorno.add(li) else barStorno.add(li)
                     }
 
-                    // ✅ nach erfolgreichem Druck: orderedQty/printedQty = qty
                     updates["$key/orderedQty"] = qty
                     updates["$key/printedQty"] = qty
                 }
@@ -735,10 +728,6 @@ class OrderActivity : AppCompatActivity() {
                 when (PRINT_MODE) {
 
                     PrintMode.A4_ANDROID_PRINT -> {
-                        // ✅ Wie gewünscht: A4 immer 2 Seiten:
-                        // Seite 1 = THEKE (NEU + STORNO)
-                        // Seite 2 = KÜCHE (NEU + STORNO)
-
                         val page1Items = mutableListOf<ReceiptBuilder.LineItem>().apply {
                             addAll(barAdd)
                             addAll(barStorno)
@@ -758,7 +747,6 @@ class OrderActivity : AppCompatActivity() {
                             page2 = page2
                         )
 
-                        // ✅ direkt nach Start des Druckdialogs markieren
                         if (updates.isNotEmpty()) orderItemsRef.updateChildren(updates)
 
                         Toast.makeText(this@OrderActivity, "Bestellung gesendet (A4) ✅", Toast.LENGTH_SHORT).show()
@@ -810,14 +798,13 @@ class OrderActivity : AppCompatActivity() {
         })
     }
 
+    // ✅ ESC/POS stabiler: ISO_8859_1 + KEIN extra cut (ReceiptBuilder macht cut schon)
     private fun sendToPrinterTcp(ip: String, port: Int, text: String): Boolean {
         return try {
             Socket().use { socket ->
                 socket.connect(InetSocketAddress(ip, port), 1500)
                 val out: OutputStream = socket.getOutputStream()
-                out.write(text.toByteArray(Charsets.UTF_8))
-                // optional cut (ESC/POS)
-                out.write(byteArrayOf(0x1D, 0x56, 0x41, 0x10))
+                out.write(text.toByteArray(Charsets.ISO_8859_1))
                 out.flush()
             }
             true
