@@ -83,7 +83,12 @@ object ReceiptBuilder {
         }
 
         fun doubleSize(on: Boolean) {
-            esc(byteArrayOf(0x1D, 0x21, if (on) 0x11 else 0x00)) // GS ! n
+            esc(byteArrayOf(0x1D, 0x21, if (on) 0x11 else 0x00)) // GS ! n (double w+h)
+        }
+
+        // ✅ NUR für Artikel: 3x Höhe (breite bleibt 1x -> Spalten bleiben sauber)
+        fun tripleHeight(on: Boolean) {
+            esc(byteArrayOf(0x1D, 0x21, if (on) 0x02 else 0x00)) // GS ! n (height=3x, width=1x)
         }
 
         fun invert(on: Boolean) {
@@ -168,7 +173,7 @@ object ReceiptBuilder {
             if (isStorno) stornoItems.add(it) else newItems.add(it)
         }
 
-        // ✅ NEU: fett
+        // ✅ NEU: fett + ARTIKEL 3x (Höhe)
         if (newItems.isNotEmpty()) {
             alignCenter()
             sb.append(centerLine("NEU"))
@@ -176,14 +181,16 @@ object ReceiptBuilder {
             sb.append(line())
 
             bold(true)
+            tripleHeight(true)
             for (it in newItems) {
                 sb.append(wrapItemLine(it.qty, it.name, it.size))
             }
+            tripleHeight(false)
             bold(false)
             sb.append("\n")
         }
 
-        // ✅ STORNO: invertiert + fett
+        // ✅ STORNO: invertiert + fett + ARTIKEL 3x (Höhe)
         if (stornoItems.isNotEmpty()) {
             alignCenter()
             invert(true)
@@ -197,9 +204,11 @@ object ReceiptBuilder {
 
             invert(true)
             bold(true)
+            tripleHeight(true)
             for (it in stornoItems) {
                 sb.append(wrapItemLine(it.qty, it.name, it.size))
             }
+            tripleHeight(false)
             bold(false)
             invert(false)
             sb.append("\n")
