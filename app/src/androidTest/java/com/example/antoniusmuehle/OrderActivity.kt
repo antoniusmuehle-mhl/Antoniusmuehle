@@ -92,8 +92,8 @@ class OrderActivity : AppCompatActivity() {
     private val mainsOrder = listOf("Spezial", "huhn", "rind", "fisch", "schwein", "veg_vegan")
 
     // ====================== DRUCKER SETTINGS ======================
-    private val BAR_PRINTER_IP = "192.168.178.126"
-    private val KITCHEN_PRINTER_IP = "192.168.178.126"
+    private val BAR_PRINTER_IP = "192.168.178.135"
+    private val KITCHEN_PRINTER_IP = "192.168.178.135"
     private val PRINTER_PORT = 9100
     // =============================================================
 

@@ -50,7 +50,6 @@ object A4PrintHelper {
 
                 val pdf = android.graphics.pdf.PdfDocument()
 
-                // A4 @ 72dpi approx: 595 x 842
                 val pageInfo1 = android.graphics.pdf.PdfDocument.PageInfo.Builder(595, 842, 1).create()
                 val p1 = pdf.startPage(pageInfo1)
                 drawReceiptA4(p1.canvas, page1)
@@ -86,67 +85,80 @@ object A4PrintHelper {
         var y = 80f
         val centerX = 595f / 2f
 
-        // Tisch groß & fett zentriert
         paint.textAlign = Paint.Align.CENTER
         paint.isFakeBoldText = true
         paint.textSize = 44f
         canvas.drawText(receipt.titleCenter, centerX, y, paint)
 
-        // Raum zentriert klein
         y += 42f
         paint.isFakeBoldText = false
         paint.textSize = 20f
         canvas.drawText(receipt.roomCenter, centerX, y, paint)
 
-        // Abschnitt zentriert
         y += 28f
         paint.textSize = 18f
         canvas.drawText(receipt.sectionTitle, centerX, y, paint)
 
-        // Linie
+        // ✅ Ticket-Hinweis (Vorspeisenbon / Nachspeisenbon)
+        if (receipt.ticketHint.isNotBlank()) {
+            y += 26f
+            paint.isFakeBoldText = true
+            paint.textSize = 18f
+            canvas.drawText("*** ${receipt.ticketHint.uppercase()} ***", centerX, y, paint)
+            paint.isFakeBoldText = false
+        }
+
         y += 22f
         paint.strokeWidth = 2f
         canvas.drawLine(40f, y, 555f, y, paint)
 
-        // Datum/Uhrzeit links
         y += 28f
         paint.textAlign = Paint.Align.LEFT
         paint.textSize = 16f
         canvas.drawText(receipt.dateTimeLine, 40f, y, paint)
 
-        // Abstand
         y += 38f
 
-        // ===== Positionen größer (2 Spalten: qty | name) =====
-        paint.textSize = 24f
-        paint.isFakeBoldText = true
-
         val xLeft = 40f
-        val qtyColWidth = 70f  // <- "Tab"-Abstand (bei Bedarf 60..90 testen)
+        val qtyColWidth = 70f
         val xQty = xLeft
         val xName = xLeft + qtyColWidth
+        val maxNameWidth = 555f - xName
 
-        val maxNameWidth = 555f - xName // bis rechter Rand
-
-        // ✅ WICHTIG: wir nutzen receipt.items, nicht receipt.lines
         for (it in receipt.items) {
+            // Artikel groß/fett
+            paint.textSize = 24f
+            paint.isFakeBoldText = true
+
             val qtyStr = "${it.qty}x"
             val nameStr = buildItemName(it)
 
-            // Name kann umbrechen -> aber immer ab xName
             val nameParts = wrapLine(nameStr, paint, maxNameWidth)
 
-            // 1. Zeile: qty + erster Teil
             canvas.drawText(qtyStr, xQty, y, paint)
             canvas.drawText(nameParts.firstOrNull() ?: "", xName, y, paint)
             y += 30f
             if (y > 800f) return
 
-            // Folgezeilen: nur Name (eingezogen), qty leer
             if (nameParts.size > 1) {
                 for (i in 1 until nameParts.size) {
                     canvas.drawText(nameParts[i], xName, y, paint)
                     y += 30f
+                    if (y > 800f) return
+                }
+            }
+
+            // ✅ Note kleiner, eingerückt, direkt darunter
+            if (it.note.isNotBlank()) {
+                paint.textSize = 18f
+                paint.isFakeBoldText = false
+
+                val noteText = "➜ ${it.note.trim()}"
+                val noteParts = wrapLine(noteText, paint, maxNameWidth)
+
+                for (p in noteParts) {
+                    canvas.drawText(p, xName, y, paint)
+                    y += 24f
                     if (y > 800f) return
                 }
             }
@@ -176,3 +188,4 @@ object A4PrintHelper {
         return lines
     }
 }
+// Stand: 16.02.2026 - 21:34

@@ -13,7 +13,8 @@ class OrderAdapter(
     private val context: Context,
     private var items: List<OrderItem>,
     private val onPlus: (OrderItem) -> Unit,
-    private val onMinus: (OrderItem) -> Unit
+    private val onMinus: (OrderItem) -> Unit,
+    private val onLongPress: (OrderItem) -> Unit // ✅ NEU
 ) : BaseAdapter() {
 
     fun update(newItems: List<OrderItem>) {
@@ -39,7 +40,8 @@ class OrderAdapter(
 
         qtyTxt.text = "${item.qty}x"
 
-        val shownName = if (item.size.isNotBlank()) "${item.name} (${item.size})" else item.name
+        val shownNameBase = if (item.size.isNotBlank()) "${item.name} (${item.size})" else item.name
+        val shownName = if (item.note.isNotBlank()) "$shownNameBase  ✎" else shownNameBase // ✅ Hinweis im UI
         nameTxt.text = shownName
 
         priceTxt.text = String.format(Locale.GERMANY, "%.2f €", item.price)
@@ -47,6 +49,13 @@ class OrderAdapter(
         minusBtn.setOnClickListener { onMinus(item) }
         plusBtn.setOnClickListener { onPlus(item) }
 
+        // ✅ Long-Press auf die Zeile öffnet Wunsch-Dialog
+        view.setOnLongClickListener {
+            onLongPress(item)
+            true
+        }
+
         return view
     }
 }
+// Stand: 16.02.2026 - 21:34

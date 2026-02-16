@@ -21,7 +21,9 @@ data class OrderItem(
     val name: String,
     val size: String,
     val price: Double,
-    val qty: Int
+    val qty: Int,
+    val note: String = "",
+    val lastAddedAt: Long = 0L
 )
 
 // ===================== RECYCLER ROWS (ACCORDION) =====================
@@ -42,3 +44,4 @@ sealed class MenuRow {
         val item: MenuItem
     ) : MenuRow()
 }
+// Stand: 16.02.2026 - 21:34
