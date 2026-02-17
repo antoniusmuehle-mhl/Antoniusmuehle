@@ -36,6 +36,7 @@ class SplitBillActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.split_bill_activity)
+        KioskMode.enable(this)
 
         roomName = intent.getStringExtra("ROOM_NAME") ?: "Unbekannt"
         tableId = intent.getStringExtra("TABLE_ID") ?: "?"
@@ -56,10 +57,14 @@ class SplitBillActivity : AppCompatActivity() {
         splitList.adapter = adapter
 
         closeSplitBtn.setOnClickListener { finish() }
-
         payPartBtn.setOnClickListener { confirmAndPayPartial() }
 
         observeOrderItems()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        KioskMode.enable(this)
     }
 
     private fun observeOrderItems() {
@@ -125,7 +130,6 @@ class SplitBillActivity : AppCompatActivity() {
     }
 
     private fun applyPartialPayment(selected: List<SplitUiItem>) {
-        // Für jede ausgewählte Position: qty reduzieren (oder auf 0 setzen)
         val updates = hashMapOf<String, Any>()
 
         for (it in selected) {

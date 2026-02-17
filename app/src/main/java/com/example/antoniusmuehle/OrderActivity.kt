@@ -112,6 +112,7 @@ class OrderActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order)
+        KioskMode.enable(this)
 
         roomName = intent.getStringExtra("ROOM_NAME") ?: "Unbekannt"
         tableId = intent.getStringExtra("TABLE_ID") ?: "?"
@@ -232,6 +233,11 @@ class OrderActivity : AppCompatActivity() {
         observeMenuFromFirebase()
         observeOrder()
     }
+    override fun onResume() {
+        super.onResume()
+        KioskMode.enable(this)
+    }
+
 
     // ✅ Zusatz/Wunsch Dialog (Text; Handschrift per Keyboard möglich)
     private fun showNoteDialog(orderItem: OrderItem) {

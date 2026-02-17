@@ -59,6 +59,7 @@ class TableActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_table)
+        KioskMode.enable(this)
 
         roomName = intent.getStringExtra("ROOM_NAME") ?: "Unbekannt"
 
@@ -95,6 +96,11 @@ class TableActivity : AppCompatActivity() {
             observeTables()
         }
     }
+    override fun onResume() {
+        super.onResume()
+        KioskMode.enable(this)
+    }
+
 
     /**
      * Macht den Raum IMMER passend in den Screen.

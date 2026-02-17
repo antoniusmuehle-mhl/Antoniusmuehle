@@ -32,6 +32,7 @@ class RoomSelectionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_selection)
+        KioskMode.enable(this)
 
         infoContainer = findViewById(R.id.infoContainer)
         roomLayout = findViewById(R.id.roomLayout)
@@ -41,6 +42,11 @@ class RoomSelectionActivity : AppCompatActivity() {
 
         checkAndCreateRoomsIfMissing()
     }
+    override fun onResume() {
+        super.onResume()
+        KioskMode.enable(this)
+    }
+
 
     /**
      * Prüfen ob /rooms existiert.
